@@ -12,6 +12,7 @@ import TollIcon from "@mui/icons-material/Toll";
 import Typography from "@mui/material/Typography";
 
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
+import AwardCertificate from "../certificates/AwardCertificate";
 
 interface Props {
   data: {
@@ -21,17 +22,33 @@ interface Props {
     imageUrl: string;
     address: string;
   };
+  userAddress: string;
+  courseOwner: string;
+  courseId: string;
+  courseName: string;
+  courseImage: string;
 }
 
 export default function MemberCard(props: Props) {
-  const { data } = props;
+  const { data, courseOwner, userAddress, courseId, courseImage, courseName } =
+    props;
   console.log("user data:", data);
   async function generateCertificate() {
     //generate certificate
   }
 
   return (
-    <Card sx={{ m: 2, p: 1, borderRadius: 2, width: "100%" }}>
+    <Card
+      elevation={0}
+      sx={{
+        m: 1,
+        p: 1,
+        width: "100%",
+        border: 1,
+        borderRadius: 3,
+        borderColor: "#0097a7",
+      }}
+    >
       <CardContent>
         <Grid container spacing={2}>
           <Grid item sm={1} lg={1}>
@@ -48,9 +65,15 @@ export default function MemberCard(props: Props) {
         </Grid>
       </CardContent>
       <CardActions sx={{ ml: 1 }}>
-        <Button variant="outlined" sx={{ textTransform: "none" }}>
-          Award Certificate
-        </Button>
+        {userAddress === courseOwner ? (
+          <AwardCertificate
+            courseId={courseId}
+            courseName={courseName}
+            courseImage={courseImage}
+            owner_id={data.id}
+            owner_name={data.name}
+          />
+        ) : null}
       </CardActions>
     </Card>
   );

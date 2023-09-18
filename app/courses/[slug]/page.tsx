@@ -21,6 +21,10 @@ import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import CourseBanner from "@/app/components/courses/CourseBanner";
 import AboutCourse from "@/app/components/courses/AboutCourse";
 import MembersList from "@/app/components/courses/MembersList";
+import AddCourseContent from "@/app/components/courses/AddCourseContent";
+import CourseContentList from "@/app/components/courses/CourseContentList";
+
+//import "@ututrust/web-components";
 
 export default function CoursePage({ params }: { params: { slug: string } }) {
   const [value, setValue] = useState("1");
@@ -35,6 +39,12 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
   const courseDetailsQuery = db.collection("Course").where("id", "==", id);
   const courseDetails = useCollection(courseDetailsQuery);
   const course: any = courseDetails.data?.data[0]?.data;
+
+  //Course content
+  const contentQuery = db.collection("Content").where("course_id", "==", id);
+  const contentCollection = useCollection(contentQuery);
+  const postedContent: any = contentCollection.data?.data;
+  console.log("Course Content : ", postedContent);
 
   //get all members in db then filter out those who are not in course member array
   async function getCourseMembers() {
@@ -150,14 +160,12 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                   value="2"
                   sx={{ textTransform: "none", mr: 2, ml: 2 }}
                 />
-                {!course || !userAddress ? null : userAddress ===
-                  course?.owner ? (
-                  <Tab
-                    label="Members"
-                    value="3"
-                    sx={{ textTransform: "none", mr: 2, ml: 2 }}
-                  />
-                ) : null}
+
+                <Tab
+                  label="Members"
+                  value="3"
+                  sx={{ textTransform: "none", mr: 2, ml: 2 }}
+                />
               </TabList>
             </AppBar>
           </Box>
@@ -177,18 +185,43 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                         userAddress={userAddress}
                       />
                     </Box>
+                    {/* <x-utu-root api-key="<place your utu api key here>">
+                      <ul>
+                        {offerIds.map((offerId) => (
+                          <li key={offerId}>
+                            <x-utu-recommendation target-uuid={offerId} />
+                          </li>
+                        ))}
+                      </ul>
+                    </x-utu-root> */}
                   </Box>
                 )}
               </Container>
             </TabPanel>
             <TabPanel value="2">
               {myCoursesButton}
-              <Container maxWidth="md">Something should be here</Container>
+              <Container maxWidth="md">
+                {course && userAddress && course.owner === userAddress ? (
+                  <Box sx={{ m: 3 }}>
+                    <AddCourseContent courseId={course.id} />
+                  </Box>
+                ) : null}
+                <CourseContentList contents={postedContent} />
+              </Container>
             </TabPanel>
             <TabPanel value="3">
               {myCoursesButton}
               <Container maxWidth="md" sx={{ display: "flex" }}>
-                <MembersList members={courseMembers} />
+                {!course || !userAddress ? null : (
+                  <MembersList
+                    members={courseMembers}
+                    userAddress={userAddress}
+                    courseOwner={course.owner}
+                    courseId={course.id}
+                    courseImage={course.feature_image}
+                    courseName={course.name}
+                  />
+                )}
               </Container>
             </TabPanel>
           </Box>
