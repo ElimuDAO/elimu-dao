@@ -15,14 +15,17 @@ module.exports = {
     basemainnet: {
       url: "https://mainnet.base.org",
       accounts: [privateKey],
+      gasPrice: 1000000000,
     },
     basegoerli: {
       url: "https://goerli.base.org",
-      accounts: [privateKey],
+      accounts: [privateKey.toString()],
+      gasPrice: 1000000000,
     },
     baselocal: {
       url: "http://localhost:8545",
       accounts: [privateKey],
+      gasPrice: 1000000000,
     },
   },
   solidity: "0.8.4",

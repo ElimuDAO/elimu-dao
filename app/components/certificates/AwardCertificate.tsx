@@ -12,6 +12,9 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { generateUniqueId } from "@/app/components/util/GenerateUniqueId";
 
+import { ElimuAddress } from "@/lib/config";
+import Elimu from "@/lib/Elimu.json";
+
 interface Props {
   courseId: string;
   courseName: string;
@@ -35,10 +38,17 @@ export default function AwardCertificate(props: Props) {
   async function handleSubmit() {
     setLoading(true);
     try {
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      const provider = new ethers.BrowserProvider(connection);
+      const signer = await provider.getSigner();
+      let contract = new ethers.Contract(ElimuAddress, Elimu.abi, signer);
+
+      const certificateId = generateUniqueId();
       const user = await db
         .collection("Certificate")
         .create([
-          generateUniqueId(),
+          certificateId,
           courseId,
           courseName,
           courseImage,
@@ -47,6 +57,13 @@ export default function AwardCertificate(props: Props) {
           description,
         ]);
       console.log(user.data.id);
+      const tokenUri = `https://https://testnet.polybase.xyz/v0/certificate/records/${certificateId}`;
+      await contract.mintCertificate(
+        owner_id,
+        courseId,
+        certificateId,
+        tokenUri
+      );
       setLoading(false);
       handleClose();
     } catch (error) {
