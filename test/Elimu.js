@@ -12,31 +12,31 @@ describe("Elimu", function () {
 
   describe("Minting certificates", function () {
     it("Should mint a new certificate", async function () {
-      const itemId = 1;
+      const courseId = 1;
       const details = "Test certificate details";
       const tokenUri = "Test token URI";
       await elimu
         .connect(owner)
-        .mintCertificate(addr1.address, itemId, details, tokenUri);
+        .mintCertificate(addr1.address, courseId, details, tokenUri);
 
       const tokenId = 1;
       // Verify that the certificate was correctly minted
       const certificate = await elimu.getCertificate(tokenId);
-      expect(certificate.licensedItemId).to.equal(itemId);
+      expect(certificate.courseId).to.equal(courseId);
       expect(certificate.details).to.equal(details);
     });
 
     it("Should emit the CertificateMinted event upon minting", async function () {
-      const itemId = 1;
+      const courseId = 1;
       const details = "Test certificate details";
       const tokenUri = "Test token URI";
       await expect(
         elimu
           .connect(owner)
-          .mintCertificate(addr1.address, itemId, details, tokenUri)
+          .mintCertificate(addr1.address, courseId, details, tokenUri)
       )
         .to.emit(elimu, "CertificateMinted")
-        .withArgs(1, addr1.address, itemId, details, tokenUri);
+        .withArgs(1, addr1.address, courseId, details, tokenUri);
     });
   });
 

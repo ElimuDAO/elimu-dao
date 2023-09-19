@@ -12,23 +12,23 @@ contract Elimu is ERC721URIStorage, Ownable {
     Counters.Counter private _tokenIds;
 
     struct Certificate{
-        uint256 licensedItemId;
+        uint256 courseId;
         string details;
     }
     
     mapping(uint256 => Certificate) public certificates;
 
-    event CertificateMinted(uint256 tokenId, address owner, uint256 itemId, string details, string tokenUri);
+    event CertificateMinted(uint256 tokenId, address owner, uint256 courseId, string details, string tokenUri);
 
     constructor() ERC721("Elimu Cert", "ELM") {}
 
-    function mintCertificate(address recipient, uint256 itemId, string memory details,  string memory tokenUri) public returns (uint256) {
+    function mintCertificate(address recipient, uint256 courseId, string memory details,  string memory tokenUri) public returns (uint256) {
         _tokenIds.increment();
         uint256 newTokenId = _tokenIds.current();
         _safeMint(recipient, newTokenId);
         _setTokenURI(newTokenId, tokenUri);
-        certificates[newTokenId] = Certificate(itemId, details);
-        emit CertificateMinted(newTokenId, recipient, itemId, details, tokenUri);
+        certificates[newTokenId] = Certificate(courseId, details);
+        emit CertificateMinted(newTokenId, recipient, courseId, details, tokenUri);
         return newTokenId;
     }
 

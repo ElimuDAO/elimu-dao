@@ -29,7 +29,7 @@ import CourseContentList from "@/app/components/courses/CourseContentList";
 export default function CoursePage({ params }: { params: { slug: string } }) {
   const [value, setValue] = useState("1");
   const [userAddress, setUserAddress] = useState("");
-  const [courseMembers, setCourseMembers] = useState([]);
+  const [courseMembers, setCourseMembers] = useState<any>([]);
 
   const { slug } = params;
   const id = slug.split("-course")[1];
@@ -55,13 +55,13 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
     const courseMembersData = course?.members;
     console.log("courseMembersData: ", courseMembersData);
 
-    const filteredMembers =
+    const filteredMembers: any =
       allMembersData &&
       allMembersData.filter(
         (member: any) =>
           courseMembersData && courseMembersData.includes(member.data.address)
       );
-    const filteredMembersData = filteredMembers.map(
+    const filteredMembersData: any = filteredMembers.map(
       (member: any) => member.data
     );
     console.log("filteredMembers: ", filteredMembersData);

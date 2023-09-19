@@ -40,27 +40,27 @@ export default function Home() {
             <Typography
               variant="h2"
               sx={{
-                backgroundImage: "linear-gradient(200deg, #00e5ff,#1b5e20)",
+                fontWeight: 600,
+              }}
+            >
+              Verifiable
+            </Typography>
+            <Typography
+              variant="h2"
+              sx={{
+                backgroundImage: "linear-gradient(200deg, #64ffda,#1b5e20)",
                 backgroundClip: "text",
                 textFillColor: "transparent",
                 fontWeight: 700,
               }}
             >
-              Decentralized
-            </Typography>
-            <Typography
-              variant="h2"
-              sx={{
-                fontWeight: 600,
-              }}
-            >
-              People-Powered Science
+              Grassroots Learning
             </Typography>
             <Typography variant="h6" color="text.secondary" sx={{ mt: 3 }}>
-              Discover, teach, learn and and get rewarded for
+              Discover, teach, learn and get recognized for
             </Typography>
             <Typography variant="h6" color="text.secondary">
-              contributing to research projects
+              your skills and knowledge
             </Typography>
           </Grid>
         </Box>
