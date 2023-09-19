@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { useCollection } from "@polybase/react";
 import { ethers } from "ethers";
 import { db } from "@/lib/polybase_init";
 import { useEffect, useState } from "react";
@@ -18,7 +19,7 @@ export default function CertificateDetails({
 }) {
   const { slug } = params;
   console.log("slug: ", slug);
-  const id = parseInt(slug.toString().split("-certificate-")[1]);
+  const id = slug.toString().split("-certificate-")[1];
   console.log("id: ", id);
 
   const [certificate, setCertificate] = useState<any>({});
@@ -32,8 +33,12 @@ export default function CertificateDetails({
   async function loadCertificate() {
     setLoading(true);
     //get item by id
-    const record = await db.collection("Certificate").get(id);
-    const certificateDetails: any = record.data[0].data;
+    const certificateRes = await db
+      .collection("Certificate")
+      .where("id", "==", id)
+      .get();
+    console.log("certficateRes: ", certificateRes);
+    const certificateDetails: any = certificateRes.data[0]?.data;
     console.log("certificateDetails", certificateDetails);
 
     setCertificate(certificateDetails);
@@ -66,7 +71,7 @@ export default function CertificateDetails({
                       backgroundColor: "#c5cae9",
                       borderRadius: 4,
                     }}
-                    alt={certificate.collectionName}
+                    alt={certificate.course_name}
                     src={
                       certificate.course_image ? certificate.course_image : ""
                     }
