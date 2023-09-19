@@ -49,7 +49,7 @@ export default function CourseContentCard(props: Props) {
         <Typography variant="h5" component="div" gutterBottom noWrap>
           {data.title}
         </Typography>
-        //if fileUrl is not empty, show fileUrl in as a Card
+
         {data.fileUrl ? (
           <CardActionArea onClick={handleClick}>
             <CardMedia
