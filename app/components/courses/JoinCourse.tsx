@@ -95,6 +95,7 @@ export default function JoinCourse(props: Props) {
             </x-utu-root>
           </Box>
         ) : (
+          <Box>
           <Button
             fullWidth
             variant="contained"
@@ -109,13 +110,14 @@ export default function JoinCourse(props: Props) {
             ) : (
               <CircularProgress size={24} sx={{ color: "#fff" }} />
             )}
-            <x-utu-root source-uuid={userAddress} target-type="provider" target-uuids={courseData.id}>
-              <div className="flex gap-1 justify-between text-sm">
-                <x-utu-feedback-details-popup target-uuid={courseData.id} source-uuid={userAddress} />
-              </div>
-              <x-utu-recommendation target-uuid={courseData.id} />
-            </x-utu-root>
           </Button>
+          <x-utu-root source-uuid={userAddress} target-type="provider" target-uuids={courseData.id}>
+          <div className="flex gap-1 justify-between text-sm">
+            <x-utu-feedback-details-popup target-uuid={courseData.id} source-uuid={userAddress} />
+          </div>
+          <x-utu-recommendation target-uuid={courseData.id} />
+        </x-utu-root>
+        </Box>
         )}
       </Box>
       <Dialog open={open} onClose={handleClose}>
