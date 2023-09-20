@@ -47,12 +47,25 @@ export default function JoinCourse(props: Props) {
 
   useEffect(() => {}, []);
 
+  // let _window: any = window;
+  // let provider = _window.ethereum;
+  // let walletAddress = provider.selectedAddress;
+
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const getId = (assetIdentifier: string) => {
+    // The reason we are creating ether addresses is they are required for endorsements on the
+    // chain.
+    return ethers
+      .id(assetIdentifier)
+      .slice(0, 40 + 2)
+      .toLowerCase();
   };
 
   async function addMember() {
@@ -86,12 +99,12 @@ export default function JoinCourse(props: Props) {
       <Box>
         {courseData.members.includes(userAddress) ? (
           <Box>
-            <x-utu-root source-uuid={userAddress} target-type="provider" target-uuids={courseData.id}>
+            <x-utu-root source-uuid={userAddress} target-type="provider" target-uuids={getId(courseData.id)}>
               <div className="flex gap-1 justify-between text-sm">
-                <x-utu-feedback-form-popup styles={{ marginTop: '100px' }} source-uuid={userAddress} target-uuid={courseData.id} transaction-id={5} />
-                <x-utu-feedback-details-popup target-uuid={courseData.id} source-uuid={userAddress} />
+                <x-utu-feedback-form-popup styles={{ marginTop: '100px' }} source-uuid={userAddress} target-uuid={getId(courseData.id)} transaction-id={5} />
+                <x-utu-feedback-details-popup target-uuid={getId(courseData.id)} source-uuid={userAddress} />
               </div>
-              <x-utu-recommendation target-uuid={courseData.id} />
+              <x-utu-recommendation target-uuid={getId(courseData.id)} />
             </x-utu-root>
           </Box>
         ) : (
@@ -111,11 +124,11 @@ export default function JoinCourse(props: Props) {
               <CircularProgress size={24} sx={{ color: "#fff" }} />
             )}
           </Button>
-          <x-utu-root source-uuid={userAddress} target-type="provider" target-uuids={courseData.id}>
+          <x-utu-root source-uuid={userAddress} target-type="provider" target-uuids={getId(courseData.id)}>
           <div className="flex gap-1 justify-between text-sm">
-            <x-utu-feedback-details-popup target-uuid={courseData.id} source-uuid={userAddress} />
+            <x-utu-feedback-details-popup target-uuid={getId(courseData.id)} source-uuid={userAddress} />
           </div>
-          <x-utu-recommendation target-uuid={courseData.id} />
+          <x-utu-recommendation target-uuid={getId(courseData.id)} />
         </x-utu-root>
         </Box>
         )}
