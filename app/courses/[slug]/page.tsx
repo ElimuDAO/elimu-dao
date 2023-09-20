@@ -204,7 +204,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                   </Box>
                 ) : null}
                 {postedContent && postedContent.length > 0 ? (
-                  <CourseContentList contents={postedContent} />
+                  <CourseContentList contents={postedContent} userAddress={userAddress}/>
                 ) : (
                   <Grid alignItems="center">
                     <Typography variant="h6" sx={{ mt: 3, mb: 3 }}>

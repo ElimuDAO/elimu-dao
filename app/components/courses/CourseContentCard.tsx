@@ -10,6 +10,8 @@ import {
   CardActionArea,
 } from "@mui/material";
 
+import { ethers } from "ethers";
+
 interface Props {
   data: {
     id: string;
@@ -17,13 +19,24 @@ interface Props {
     content: string;
     fileUrl: string;
   };
+  userAddress: string;
 }
 
 export default function CourseContentCard(props: Props) {
   const router = useRouter();
   const [expanded, setExpanded] = React.useState(false);
 
-  const { data } = props;
+  const getId = (assetIdentifier: string) => {
+    // The reason we are creating ether addresses is they are required for endorsements on the
+    // chain.
+    return ethers
+      .id(assetIdentifier)
+      .slice(0, 40 + 2)
+      .toLowerCase();
+  };
+
+
+  const { data, userAddress } = props;
   //console.log(data);
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -80,6 +93,12 @@ export default function CourseContentCard(props: Props) {
             </Box>
           </Grid>
         </Grid>
+        <x-utu-root source-uuid={userAddress} target-type="provider" target-uuids={getId(data.id)}>
+          <div className="flex gap-1 justify-between text-sm">
+            <x-utu-feedback-form-popup styles={{ marginTop: '100px' }} source-uuid={userAddress} target-uuid={getId(data.id)}/>
+          </div>
+          <x-utu-recommendation target-uuid={getId(data.id)} />
+        </x-utu-root>
       </CardContent>
     </Card>
   );

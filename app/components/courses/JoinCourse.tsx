@@ -101,7 +101,7 @@ export default function JoinCourse(props: Props) {
           <Box>
             <x-utu-root source-uuid={userAddress} target-type="provider" target-uuids={getId(courseData.id)}>
               <div className="flex gap-1 justify-between text-sm">
-                <x-utu-feedback-form-popup styles={{ marginTop: '100px' }} source-uuid={userAddress} target-uuid={getId(courseData.id)} transaction-id={5} />
+                <x-utu-feedback-form-popup styles={{ marginTop: '100px' }} source-uuid={userAddress} target-uuid={getId(courseData.id)}/>
                 <x-utu-feedback-details-popup target-uuid={getId(courseData.id)} source-uuid={userAddress} />
               </div>
               <x-utu-recommendation target-uuid={getId(courseData.id)} />
@@ -125,11 +125,11 @@ export default function JoinCourse(props: Props) {
             )}
           </Button>
           <x-utu-root source-uuid={userAddress} target-type="provider" target-uuids={getId(courseData.id)}>
-          <div className="flex gap-1 justify-between text-sm">
-            <x-utu-feedback-details-popup target-uuid={getId(courseData.id)} source-uuid={userAddress} />
-          </div>
-          <x-utu-recommendation target-uuid={getId(courseData.id)} />
-        </x-utu-root>
+            <div className="flex gap-1 justify-between text-sm">
+              <x-utu-feedback-details-popup target-uuid={getId(courseData.id)} source-uuid={userAddress} />
+            </div>
+            <x-utu-recommendation target-uuid={getId(courseData.id)} />
+          </x-utu-root>
         </Box>
         )}
       </Box>
