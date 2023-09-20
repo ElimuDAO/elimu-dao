@@ -14,6 +14,7 @@ import {
   Tab,
   Tooltip,
   Typography,
+  Grid,
 } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
@@ -207,13 +208,21 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                     <AddCourseContent courseId={course.id} />
                   </Box>
                 ) : null}
-                <CourseContentList contents={postedContent} />
+                {postedContent && postedContent.length > 0 ? (
+                  <CourseContentList contents={postedContent} />
+                ) : (
+                  <Grid alignItems="center">
+                    <Typography variant="h6" sx={{ mt: 3, mb: 3 }}>
+                      This course has no content yet
+                    </Typography>
+                  </Grid>
+                )}
               </Container>
             </TabPanel>
             <TabPanel value="3">
               {myCoursesButton}
               <Container maxWidth="md" sx={{ display: "flex" }}>
-                {!course || !userAddress ? null : (
+                {!course || !userAddress ? null : courseMembers.length > 0 ? (
                   <MembersList
                     members={courseMembers}
                     userAddress={userAddress}
@@ -222,6 +231,10 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                     courseImage={course.feature_image}
                     courseName={course.name}
                   />
+                ) : (
+                  <Typography variant="h6" sx={{ mt: 3, mb: 3 }}>
+                    This course has no members yet
+                  </Typography>
                 )}
               </Container>
             </TabPanel>
