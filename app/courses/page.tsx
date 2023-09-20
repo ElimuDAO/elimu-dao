@@ -18,6 +18,7 @@ export default function Courses() {
   const [value, setValue] = useState("1");
   const [ownedCourses, setOwnedCourses] = useState<any>([]);
   const [joinedCourses, setJoinedCourses] = useState<any>([]);
+  const [ownedCertificates, setOwnedCertificates] = useState<any>([]);
   const [contributions, setContributions] = useState<any>([]);
   const [loadingOwnedState, setLoadingOwnedState] = useState("not-loaded");
   const [loadingJoinedState, setLoadingJoinedState] = useState("not-loaded");
@@ -36,6 +37,7 @@ export default function Courses() {
     const recoveredaddress = await signer.getAddress();
     getOwnedCourses(recoveredaddress);
     getJoinedCourses(recoveredaddress);
+    loadCertificates(recoveredaddress);
   }
 
   const getOwnedCourses = async (address: string) => {
@@ -51,6 +53,17 @@ export default function Courses() {
     setLoadingOwnedState("loaded");
     console.log("ownedCourses", ownedCourses);
   };
+
+  async function loadCertificates(address: string) {
+    const recordsOwned = await db
+      .collection("Certificate")
+      .where("owner_id", "==", address)
+      .sort("id", "desc")
+      .get();
+    const ownedCertificates: any = recordsOwned.data;
+    setOwnedCertificates(ownedCertificates);
+    console.log("ownedCertificates", ownedCertificates);
+  }
 
   const getJoinedCourses = async (address: string) => {
     setLoadingJoined(true); // loading state
@@ -109,7 +122,7 @@ export default function Courses() {
             <StatBox
               text="Finished courses"
               icon={<AssignmentTurnedInOutlinedIcon sx={{ fontSize: 24 }} />}
-              value={1}
+              value={ownedCertificates.length}
               bgcolor="#dcedc8"
             />
           </Grid>

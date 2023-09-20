@@ -62,6 +62,7 @@ export default function EditCourse(props: Props) {
   async function EditCourse() {
     const collectionReference = db.collection("Course");
     try {
+      console.log("editing Id", courseData.id);
       const projectDetails = await collectionReference
         .record(courseData.id)
         .call("editCourse", [
@@ -120,7 +121,7 @@ export default function EditCourse(props: Props) {
               variant="h5"
               component="div"
             >
-              Edit Project
+              Edit Course
             </Typography>
 
             {imageUri && (

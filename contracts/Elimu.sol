@@ -19,7 +19,7 @@ contract Elimu is ERC721URIStorage, Ownable {
     }
 
     struct Certificate{
-        uint256 courseId;
+        string courseId;
         string details;
     }
     
@@ -28,7 +28,7 @@ contract Elimu is ERC721URIStorage, Ownable {
 
     event CourseCreated(uint256 indexed id, address indexed creator, string projectData);
 
-    event CertificateMinted(uint256 tokenId, address owner, uint256 courseId, string details, string tokenUri);
+    event CertificateMinted(uint256 tokenId, address owner, string courseId, string details, string tokenUri);
 
     constructor() ERC721("Elimu Cert", "ELM") {}
 
@@ -39,7 +39,7 @@ contract Elimu is ERC721URIStorage, Ownable {
         emit CourseCreated(newProjectId, msg.sender, _courseData);
     }
 
-    function mintCertificate(address recipient, uint256 courseId, string memory details,  string memory tokenUri) public returns (uint256) {
+    function mintCertificate(address recipient, string memory courseId, string memory details,  string memory tokenUri) public returns (uint256) {
         _tokenIds.increment();
         uint256 newTokenId = _tokenIds.current();
         _safeMint(recipient, newTokenId);

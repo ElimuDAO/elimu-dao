@@ -12,7 +12,7 @@ describe("Elimu", function () {
 
   describe("Minting certificates", function () {
     it("Should mint a new certificate", async function () {
-      const courseId = 1;
+      const courseId = "1";
       const details = "Test certificate details";
       const tokenUri = "Test token URI";
       await elimu
@@ -27,7 +27,7 @@ describe("Elimu", function () {
     });
 
     it("Should emit the CertificateMinted event upon minting", async function () {
-      const courseId = 1;
+      const courseId = "1";
       const details = "Test certificate details";
       const tokenUri = "Test token URI";
       await expect(

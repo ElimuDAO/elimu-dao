@@ -82,7 +82,11 @@ export default function JoinCourse(props: Props) {
     <div>
       <Box>
         {courseData.members.includes(userAddress) ? (
-          "Member of this course"
+          <Box>
+            <Typography variant="body1" sx={{ m: 2, mb: 0 }}>
+              You are a member of this course
+            </Typography>
+          </Box>
         ) : (
           <Button
             fullWidth

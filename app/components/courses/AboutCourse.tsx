@@ -2,6 +2,7 @@ import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import JoinCourse from "./JoinCourse";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import AddchartOutlinedIcon from "@mui/icons-material/AddchartOutlined";
+import CourseContentCard from "./CourseContentCard";
 
 interface Props {
   courseData: {
@@ -12,9 +13,10 @@ interface Props {
     name: string;
   };
   userAddress: string;
+  courseContent: any;
 }
 export default function AboutCourse(props: Props) {
-  const { courseData, userAddress } = props;
+  const { courseData, userAddress, courseContent } = props;
 
   return (
     <Grid container spacing={2}>
@@ -47,7 +49,8 @@ export default function AboutCourse(props: Props) {
             <Box sx={{ display: "flex", m: 1 }}>
               <AddchartOutlinedIcon />
               <Typography variant="body1" sx={{ ml: 1 }}>
-                something
+                {courseContent?.length}{" "}
+                {courseContent?.length > 1 ? "lessons" : "lesson"}
               </Typography>
             </Box>
             <Box sx={{ mt: 2 }}>

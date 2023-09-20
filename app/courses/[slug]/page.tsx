@@ -183,6 +183,7 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                       <AboutCourse
                         courseData={course}
                         userAddress={userAddress}
+                        courseContent={postedContent}
                       />
                     </Box>
                     {/* <x-utu-root api-key="<place your utu api key here>">
