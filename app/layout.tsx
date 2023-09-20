@@ -11,10 +11,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>Elimu DAO</title>
-        <meta
-          name="description"
-          content="Decentralized People-Powered Science"
-        />
+        <meta name="description" content="Verifiable Grassroots Education" />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <ThemeProvider theme={mainTheme}>

@@ -85,7 +85,6 @@ export default function CreateUser() {
           <TextField
             autoFocus
             margin="dense"
-            id="yourname"
             label="Enter your name"
             type="name"
             fullWidth
