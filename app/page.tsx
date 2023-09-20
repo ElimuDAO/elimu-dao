@@ -1,15 +1,16 @@
 "use client";
+import { useEffect, useState } from "react";
 import { useCollection } from "@polybase/react";
 import { db } from "@/lib/polybase_init";
 
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Divider, Grid, Typography, LinearProgress } from "@mui/material";
 import AppNavBar from "./components/layout/AppNavBar";
 import { DrawerHeader } from "./components/layout/DrawerHeader";
 import CoursesList from "./components/courses/CoursesList";
 
 export default function Home() {
   const query = db.collection("Course").sort("id", "desc");
-  const { data } = useCollection(query);
+  const { data, loading } = useCollection(query);
 
   const courses: any = data?.data;
 
@@ -85,6 +86,7 @@ export default function Home() {
           </Grid>
           <br />
           <br />
+          {loading ? <LinearProgress sx={{ ml: 2, mr: 2 }} /> : null}
           <CoursesList courses={courses} />
         </Box>
         <Box
