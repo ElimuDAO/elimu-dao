@@ -25,7 +25,7 @@ import MembersList from "@/app/components/courses/MembersList";
 import AddCourseContent from "@/app/components/courses/AddCourseContent";
 import CourseContentList from "@/app/components/courses/CourseContentList";
 
-//import "@ututrust/web-components";
+import "@ututrust/web-components";
 
 export default function CoursePage({ params }: { params: { slug: string } }) {
   const [value, setValue] = useState("1");
@@ -35,6 +35,10 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const id = slug.split("-course")[1];
   console.log("id: ", id);
+
+  const offerIds = [
+    'e541df40-74b6-478e-a7da-7a9e52778700'
+  ];
 
   //Course metadata
   const courseDetailsQuery = db.collection("Course").where("id", "==", id);
@@ -187,15 +191,6 @@ export default function CoursePage({ params }: { params: { slug: string } }) {
                         courseContent={postedContent}
                       />
                     </Box>
-                    {/* <x-utu-root api-key="<place your utu api key here>">
-                      <ul>
-                        {offerIds.map((offerId) => (
-                          <li key={offerId}>
-                            <x-utu-recommendation target-uuid={offerId} />
-                          </li>
-                        ))}
-                      </ul>
-                    </x-utu-root> */}
                   </Box>
                 )}
               </Container>

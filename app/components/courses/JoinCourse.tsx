@@ -25,6 +25,8 @@ import {
   DialogContentText,
 } from "@mui/material";
 
+import "@ututrust/web-components";
+
 interface Props {
   userAddress: string;
   courseData: {
@@ -34,6 +36,7 @@ interface Props {
     members: string[];
   };
 }
+
 
 export default function JoinCourse(props: Props) {
   const { userAddress, courseData } = props;
@@ -83,9 +86,13 @@ export default function JoinCourse(props: Props) {
       <Box>
         {courseData.members.includes(userAddress) ? (
           <Box>
-            <Typography variant="body1" sx={{ m: 2, mb: 0 }}>
-              You are a member of this course
-            </Typography>
+            <x-utu-root source-uuid={userAddress} target-type="provider" target-uuids={courseData.id}>
+              <div className="flex gap-1 justify-between text-sm">
+                <x-utu-feedback-form-popup styles={{ marginTop: '100px' }} source-uuid={userAddress} target-uuid={courseData.id} transaction-id={5} />
+                <x-utu-feedback-details-popup target-uuid={courseData.id} source-uuid={userAddress} />
+              </div>
+              <x-utu-recommendation target-uuid={courseData.id} />
+            </x-utu-root>
           </Box>
         ) : (
           <Button
@@ -102,6 +109,12 @@ export default function JoinCourse(props: Props) {
             ) : (
               <CircularProgress size={24} sx={{ color: "#fff" }} />
             )}
+            <x-utu-root source-uuid={userAddress} target-type="provider" target-uuids={courseData.id}>
+              <div className="flex gap-1 justify-between text-sm">
+                <x-utu-feedback-details-popup target-uuid={courseData.id} source-uuid={userAddress} />
+              </div>
+              <x-utu-recommendation target-uuid={courseData.id} />
+            </x-utu-root>
           </Button>
         )}
       </Box>
