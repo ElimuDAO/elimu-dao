@@ -11,7 +11,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { generateUniqueId } from "@/app/components/util/GenerateUniqueId";
-
+import { Web3Storage } from "web3.storage";
+import { web3StorageToken } from "@/lib/config";
 import { ElimuAddress } from "@/lib/config";
 import Elimu from "@/lib/Elimu.json";
 
@@ -40,7 +41,9 @@ export default function AwardCertificate(props: Props) {
     try {
       const web3Modal = new Web3Modal();
       const connection = await web3Modal.connect();
-      const provider = new ethers.BrowserProvider(connection);
+      const provider = new ethers.JsonRpcProvider(
+        `https://goerli.infura.io/v3/80b986daf63447ceb9978477a1b451c9`
+      );
       const signer = await provider.getSigner();
       let contract = new ethers.Contract(ElimuAddress, Elimu.abi, signer);
 
@@ -57,14 +60,46 @@ export default function AwardCertificate(props: Props) {
           description,
         ]);
       console.log(user.data.id);
-      const tokenUri = `https://https://testnet.polybase.xyz/v0/certificate/records/${certificateId}`;
+      const client = new Web3Storage({
+        token: web3StorageToken || "unavailable",
+      });
+      //upload metadata jsonto ipfs
+      const metadata = JSON.stringify({
+        certificateId: certificateId,
+        courseId: courseId,
+        courseName: courseName,
+        name: courseName,
+        image: courseImage,
+        ownerId: owner_id,
+        ownerName: owner_name,
+        description: description,
+      });
+      const datablob = new Blob([metadata], { type: "application/json" });
+      const metadataFile = new File([datablob], "metadata.json");
+      const cid = await client.put([metadataFile]);
+      const tokenUri = `https://${cid}.ipfs.w3s.link/metadata.json`;
+      const getMintedTokenId = () => {
+        return new Promise((resolve, reject) => {
+          contract.once("CertificateMinted", (tokenId) => {
+            resolve(tokenId.toString());
+          });
+        });
+      };
       await contract.mintCertificate(
         owner_id,
         courseId,
         certificateId,
         tokenUri
       );
+
+      const mintedTokenId: any = await getMintedTokenId();
+
+      // const updatedCert = await db
+      //   .collection("Certificate")
+      //   .record(certificateId)
+      //   .call("updateTokenId", [mintedTokenId.toString()]);
       setLoading(false);
+      console.log("minted token id:", mintedTokenId);
       handleClose();
     } catch (error) {
       console.log(error);

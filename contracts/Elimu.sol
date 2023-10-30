@@ -32,7 +32,7 @@ contract Elimu is ERC721URIStorage, Ownable {
 
     constructor() ERC721("Elimu Cert", "ELM") {}
 
-     function createCourse(string memory _courseData) public {
+    function createCourse(string memory _courseData) public {
         _courseIds.increment();
         uint256 newProjectId = _courseIds.current(); 
         courses.push(Course(msg.sender,_courseData,new address[](0)));
