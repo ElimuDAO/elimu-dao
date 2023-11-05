@@ -78,13 +78,7 @@ export default function AwardCertificate(props: Props) {
       const metadataFile = new File([datablob], "metadata.json");
       const cid = await client.put([metadataFile]);
       const tokenUri = `https://${cid}.ipfs.w3s.link/metadata.json`;
-      const getMintedTokenId = () => {
-        return new Promise((resolve, reject) => {
-          contract.once("CertificateMinted", (tokenId) => {
-            resolve(tokenId.toString());
-          });
-        });
-      };
+
       await contract.mintCertificate(
         owner_id,
         courseId,
@@ -92,14 +86,12 @@ export default function AwardCertificate(props: Props) {
         tokenUri
       );
 
-      const mintedTokenId: any = await getMintedTokenId();
-
       // const updatedCert = await db
       //   .collection("Certificate")
       //   .record(certificateId)
       //   .call("updateTokenId", [mintedTokenId.toString()]);
       setLoading(false);
-      console.log("minted token id:", mintedTokenId);
+
       handleClose();
     } catch (error) {
       console.log(error);
